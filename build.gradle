@@ -1,0 +1,9 @@
+task anotherTask << {
+	println "Are you ready?"
+}
+
+task testSetup << {
+    println 'I surely hope so'
+}
+
+testSetup.dependsOn anotherTask

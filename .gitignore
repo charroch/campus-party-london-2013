@@ -18,3 +18,16 @@ local.properties
 # Eclipse project files
 .classpath
 .project
+.gradle
+# IDEA Ignores
+*.iml
+*.ipr
+*.iws
+.idea/
+local.properties
+
+# Generic Android ignores
+bin/
+target
+gen/
+.gradletasknamecache
