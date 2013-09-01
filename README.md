@@ -3,6 +3,15 @@ campus-party-london-2013
 
 Welcome to the 2013 Android workshop at CAMPUS PARTY 2013 LONDON.
 
+What will we do?
+----------------
+
+What will you learn?
+--------------------
+
+What do I need?
+---------------
+
 
 Prerequesite
 ============
@@ -15,7 +24,8 @@ We will need a couple of software to get this to work. We will not drill down in
 - [Android Studio](http://developer.android.com/sdk/installing/studio.html)
 - [Gradle](http://www.gradle.org/downloads)
 - [A github account](https://github.com/novoda/campus-party-london-2013)
-
+- [A google + account](http://google.com/+)
+- [A google + token]
 
 Test your setup
 ---------------
