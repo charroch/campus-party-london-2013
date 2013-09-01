@@ -31,3 +31,5 @@ bin/
 target
 gen/
 .gradletasknamecache
+GPlus/build
+GPlus/build/*
