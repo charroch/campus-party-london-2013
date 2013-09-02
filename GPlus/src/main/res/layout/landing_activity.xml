@@ -5,6 +5,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="onLogin"
+        android:text="Login?" />
+
     <fragment
         android:name="com.cp.london.gplus.MyPlusActivitiesFragment"
         android:id="@+id/plus_activity_fragment"
