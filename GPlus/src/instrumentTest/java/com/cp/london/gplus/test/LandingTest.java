@@ -32,8 +32,6 @@ public class LandingTest extends ActivityInstrumentationTestCase2<Landing> {
         PlusAdapter adapter = new PlusAdapter(getActivity(), mockedActivities());
         getActivity().setListAdapter(adapter);
         assertEquals(getActivity().getListView().getCount(), COUNT_OF_FIVE);
-        Thread.sleep(2000L);
-        
     }
 
     private List<PlusActivity> mockedActivities() {
