@@ -1,13 +1,13 @@
 package com.cp.london.gplus;
 
 import android.annotation.TargetApi;
-import android.app.ListFragment;
-import android.app.LoaderManager;
-import android.content.AsyncTaskLoader;
 import android.content.Context;
-import android.content.Loader;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.ListFragment;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.AsyncTaskLoader;
+import android.support.v4.content.Loader;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +15,6 @@ import android.view.ViewGroup;
 import java.util.Collections;
 import java.util.List;
 
-@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class MyPlusActivitiesFragment extends ListFragment implements LoaderManager.LoaderCallbacks<List<PlusActivity>> {
 
     @Override
