@@ -23,5 +23,11 @@ android {
 }
 
 dependencies {
+    compile files('libs/google-play-services.jar')
+
+    instrumentTestCompile 'com.jayway.android.robotium:robotium-solo:4.2'
+
     compile 'com.android.support:support-v4:13.0.0'
+    compile 'com.google.api-client:google-api-client-android:1.16.0-rc'
+    compile 'com.google.apis:google-api-services-plus:v1-rev91-1.16.0-rc'
 }
