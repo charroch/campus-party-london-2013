@@ -2,20 +2,36 @@ package com.cp.london.gplus;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.Loader;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.api.client.extensions.android.http.AndroidHttp;
+import com.google.api.client.extensions.android.json.AndroidJsonFactory;
+import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
+import com.google.api.client.http.HttpTransport;
+import com.google.api.services.plus.Plus;
+import com.google.api.services.plus.model.Activity;
+import com.google.api.services.plus.model.ActivityFeed;
+
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 public class MyPlusActivitiesFragment extends ListFragment implements LoaderManager.LoaderCallbacks<List<PlusActivity>> {
+
+    private static final int LOADER_ID = 312;
+    private static final String KEY_TOKEN = "token";
+    String token;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -23,8 +39,17 @@ public class MyPlusActivitiesFragment extends ListFragment implements LoaderMana
     }
 
     @Override
+    public void onAttach(android.app.Activity activity) {
+        super.onAttach(activity);
+        GetToken act = (GetToken) activity;
+        if (act.hasToken()) {
+            loadFeed(act.getToken());
+        }
+    }
+
+    @Override
     public Loader<List<PlusActivity>> onCreateLoader(int i, Bundle bundle) {
-        return new ActivityLoader(getActivity());
+        return new GetPlusFeed(getActivity(), bundle.getString(KEY_TOKEN));
     }
 
     @Override
@@ -38,15 +63,54 @@ public class MyPlusActivitiesFragment extends ListFragment implements LoaderMana
         setListAdapter(null);
     }
 
-    class ActivityLoader extends AsyncTaskLoader<List<PlusActivity>> {
+    public void loadFeed(String token) {
+        Bundle bundle = new Bundle();
+        bundle.putString(KEY_TOKEN, token);
+        getLoaderManager().initLoader(LOADER_ID, bundle, this);
+        getLoaderManager().getLoader(LOADER_ID).forceLoad();
+    }
 
-        public ActivityLoader(Context context) {
+    /**
+     * Get feed asynchronously
+     */
+    public static class GetPlusFeed extends AsyncTaskLoader<List<PlusActivity>> {
+
+        private final String token;
+
+        public GetPlusFeed(Context context, String token) {
             super(context);
+            this.token = token;
         }
 
         @Override
         public List<PlusActivity> loadInBackground() {
-            return Collections.<PlusActivity>emptyList();
+            try {
+                return getPlusActivities(token);
+            } catch (IOException e) {
+                Log.e("LOGTAG", "", e);
+                return Collections.emptyList();
+            }
+        }
+
+        public List<PlusActivity> getPlusActivities(String token) throws IOException {
+            Plus.Activities.List listActivities = plus(token).activities().list("me", "public");
+            listActivities.setMaxResults(50L);
+            ActivityFeed activityFeed = listActivities.execute();
+            final List<Activity> activities = activityFeed.getItems();
+            List<PlusActivity> returned = new ArrayList<PlusActivity>(activities.size());
+            for (Activity activity : activities) {
+                returned.add(PlusActivity.from("", activity.getKind(), activity.getTitle()));
+            }
+            return returned;
+        }
+
+        public Plus plus(String token) {
+            HttpTransport httpTransport = AndroidHttp.newCompatibleTransport();
+            GoogleCredential c = new GoogleCredential();
+            c.setAccessToken(token);
+            Plus plus = new Plus.Builder(httpTransport, new AndroidJsonFactory(), c)
+                    .setApplicationName("Google-Campus-Party/0.1").build();
+            return plus;
         }
     }
 }

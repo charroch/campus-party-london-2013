@@ -22,12 +22,20 @@ import com.google.android.gms.auth.GoogleAuthUtil;
 import com.google.android.gms.auth.UserRecoverableAuthException;
 import com.google.android.gms.common.AccountPicker;
 import com.google.android.gms.common.Scopes;
+import com.google.api.client.extensions.android.http.AndroidHttp;
+import com.google.api.client.extensions.android.json.AndroidJsonFactory;
 import com.google.api.client.googleapis.auth.clientlogin.ClientLogin;
+import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
+import com.google.api.client.http.HttpTransport;
+import com.google.api.services.plus.Plus;
+import com.google.api.services.plus.model.Activity;
+import com.google.api.services.plus.model.ActivityFeed;
 
 import java.io.IOException;
+import java.util.List;
 
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-public class Landing extends FragmentActivity {
+public class Landing extends FragmentActivity implements GetToken {
 
     private static final int CHOOSE_ACCOUNT_RESULT = 12;
     private static final int ENABLE_ACCOUNT_RESULT = 13;
@@ -97,6 +105,14 @@ public class Landing extends FragmentActivity {
         this.token = token;
         logout.setEnabled(true);
         login.setEnabled(false);
+        getFeedWithToken(token);
+    }
+
+    private void getFeedWithToken(String token) {
+        MyPlusActivitiesFragment frg = (MyPlusActivitiesFragment) getSupportFragmentManager().findFragmentById(R.id.plus_activity_fragment);
+        if (frg != null) {
+            frg.loadFeed(token);
+        }
     }
 
     private void getTokenFor(String accountName) {
@@ -120,6 +136,19 @@ public class Landing extends FragmentActivity {
         return (ListFragment) getSupportFragmentManager().findFragmentById(R.id.plus_activity_fragment);
     }
 
+    @Override
+    public String getToken() {
+        return token;
+    }
+
+    @Override
+    public boolean hasToken() {
+        return !TextUtils.isEmpty(token);
+    }
+
+    /**
+     * Get token asynchronously...
+     */
     private class GetToken extends AsyncTask<Void, Void, String> {
 
         private static final String SCOPE = "oauth2:" + Scopes.PLUS_LOGIN + " https://www.googleapis.com/auth/userinfo.email";
