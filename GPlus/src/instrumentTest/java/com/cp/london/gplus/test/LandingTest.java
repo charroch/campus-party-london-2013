@@ -24,16 +24,14 @@ public class LandingTest extends ActivityInstrumentationTestCase2<Landing> {
     }
 
     public void test_should_have_empty_list() {
-        assertEquals(getActivity().getListView().getCount(), EMPTY_LIST);
+        assertEquals(getActivity().getListFragment().getListView().getCount(), EMPTY_LIST);
     }
 
     @UiThreadTest
     public void test_should_have_some_views_when_mocked() throws InterruptedException {
         PlusAdapter adapter = new PlusAdapter(getActivity(), mockedActivities());
-        getActivity().setListAdapter(adapter);
-        assertEquals(getActivity().getListView().getCount(), COUNT_OF_FIVE);
-        Thread.sleep(2000L);
-        
+        getActivity().getListFragment().setListAdapter(adapter);
+        assertEquals(getActivity().getListFragment().getListView().getCount(), COUNT_OF_FIVE);
     }
 
     private List<PlusActivity> mockedActivities() {
