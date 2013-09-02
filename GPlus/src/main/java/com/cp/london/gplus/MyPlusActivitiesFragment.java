@@ -2,6 +2,8 @@ package com.cp.london.gplus;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -13,6 +15,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.extensions.android.json.AndroidJsonFactory;
@@ -31,7 +34,6 @@ public class MyPlusActivitiesFragment extends ListFragment implements LoaderMana
 
     private static final int LOADER_ID = 312;
     private static final String KEY_TOKEN = "token";
-    String token;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -45,6 +47,15 @@ public class MyPlusActivitiesFragment extends ListFragment implements LoaderMana
         if (act.hasToken()) {
             loadFeed(act.getToken());
         }
+    }
+
+    @Override
+    public void onListItemClick(ListView l, View v, int position, long id) {
+        super.onListItemClick(l, v, position, id);
+        PlusActivity activity = (PlusActivity) l.getAdapter().getItem(position);
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(activity.itemUrl));
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
     }
 
     @Override
@@ -99,7 +110,8 @@ public class MyPlusActivitiesFragment extends ListFragment implements LoaderMana
             final List<Activity> activities = activityFeed.getItems();
             List<PlusActivity> returned = new ArrayList<PlusActivity>(activities.size());
             for (Activity activity : activities) {
-                returned.add(PlusActivity.from("", activity.getKind(), activity.getTitle()));
+                returned.add(
+                        PlusActivity.from("", activity.getActor().getDisplayName(), activity.getTitle(), activity.getUrl()));
             }
             return returned;
         }

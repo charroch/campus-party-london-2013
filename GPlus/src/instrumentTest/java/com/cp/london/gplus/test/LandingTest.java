@@ -36,11 +36,11 @@ public class LandingTest extends ActivityInstrumentationTestCase2<Landing> {
 
     private List<PlusActivity> mockedActivities() {
         List<PlusActivity> a = new ArrayList<PlusActivity>(COUNT_OF_FIVE);
-        a.add(PlusActivity.from("1", "title_1", "content_1"));
-        a.add(PlusActivity.from("2", "title_2", "content_2"));
-        a.add(PlusActivity.from("3", "title_3", "content_3"));
-        a.add(PlusActivity.from("4", "title_4", "content_4"));
-        a.add(PlusActivity.from("5", "title_5", "content_5"));
+        a.add(PlusActivity.from("1", "title_1", "content_1", ""));
+        a.add(PlusActivity.from("2", "title_2", "content_2", ""));
+        a.add(PlusActivity.from("3", "title_3", "content_3", ""));
+        a.add(PlusActivity.from("4", "title_4", "content_4", ""));
+        a.add(PlusActivity.from("5", "title_5", "content_5", ""));
         return a;
     }
 }
