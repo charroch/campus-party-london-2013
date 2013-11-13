@@ -2,7 +2,6 @@ package com.cp.london.gplus;
 
 import android.accounts.AccountManager;
 import android.annotation.TargetApi;
-
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -10,7 +9,6 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.ListFragment;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,22 +20,13 @@ import com.google.android.gms.auth.GoogleAuthUtil;
 import com.google.android.gms.auth.UserRecoverableAuthException;
 import com.google.android.gms.common.AccountPicker;
 import com.google.android.gms.common.Scopes;
-import com.google.api.client.extensions.android.http.AndroidHttp;
-import com.google.api.client.extensions.android.json.AndroidJsonFactory;
-import com.google.api.client.googleapis.auth.clientlogin.ClientLogin;
-import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
-import com.google.api.client.http.HttpTransport;
-import com.google.api.services.plus.Plus;
-import com.google.api.services.plus.model.Activity;
-import com.google.api.services.plus.model.ActivityFeed;
 
 import java.io.IOException;
-import java.util.List;
 
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class Landing extends FragmentActivity implements GetToken {
 
-    private static final int CHOOSE_ACCOUNT_RESULT = 12;
+    public static final int CHOOSE_ACCOUNT_RESULT = 12;
     private static final int ENABLE_ACCOUNT_RESULT = 13;
     private String accountName;
     private String token;
@@ -77,7 +66,7 @@ public class Landing extends FragmentActivity implements GetToken {
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_CANCELED) {
             toast("If you cancel, you won't go very far!");
             return;
