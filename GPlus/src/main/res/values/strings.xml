@@ -4,5 +4,8 @@
     <string name="app_name">GPlus</string>
     <string name="action_populate">Populate</string>
     <string name="hello_world">Hello world!</string>
+  <string name="login">Login?</string>
+  <string name="logout">Logout?</string>
+  <string name="empty_view_text">No data yet!</string>
 
 </resources>

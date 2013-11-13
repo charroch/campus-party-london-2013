@@ -3,22 +3,28 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:0.5.+'
+        classpath 'com.android.tools.build:gradle:0.6.+'
     }
 }
 apply plugin: 'android'
 
 repositories {
     mavenCentral()
+    maven {
+        url "https://github.com/novoda/public-mvn-repo/raw/master/releases"
+    }
 }
 
 android {
-    compileSdkVersion 17
-    buildToolsVersion "17.0.0"
+    compileSdkVersion 19
+    buildToolsVersion "18.1.1"
 
     defaultConfig {
         minSdkVersion 7
         targetSdkVersion 16
+
+        testInstrumentationRunner "com.google.android.apps.common.testing.testrunner.GoogleInstrumentationTestRunner"
+        testPackageName "com.cp.london.gplus.test"
     }
 }
 
@@ -26,6 +32,7 @@ dependencies {
     compile files('libs/google-play-services.jar')
 
     instrumentTestCompile 'com.jayway.android.robotium:robotium-solo:4.2'
+    instrumentTestCompile "com.google.android:android-espresso-bundled:1.0.0-SNAPSHOT"
 
     compile 'com.android.support:support-v4:13.0.0'
     compile 'com.google.api-client:google-api-client-android:1.16.0-rc'

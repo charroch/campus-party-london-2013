@@ -1,4 +1,4 @@
-package com.cp.london.gplus.test;
+package com.cp.london.gplus.test.robotium;
 
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.UiThreadTest;
